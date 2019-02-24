@@ -12,7 +12,7 @@ class MoviesController < ApplicationController
 
   def index
     @all_ratings = Movie.ratings
-    # @selected_ratings = @all_ratings
+    @selected_ratings = @all_ratings
     
     @sort_column = params[:sort] || 'id'  # sort using params[:sort]
     @selected_ratings =  params[:ratings].keys if params[:ratings]
