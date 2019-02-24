@@ -17,10 +17,13 @@ class MoviesController < ApplicationController
     @title_hilite = session[:title_hilite] = "hilite" if params[:sort] == 'title'
     @date_hilite = session[:date_hilite] = "hilite" if params[:sort] == 'release_date'
 
-    redirect_to movies_path(ratings: Hash[session[:ratings].map {|r| [r,1]}], sort: session[:sort]) if session[:ratings] && session[:sort] && ( !params[:ratings] || !params[:sort])
-
     session[:ratings] = params[:ratings].keys if params[:ratings]
     session[:sort] = params[:sort] if params[:sort]
+    
+    redirect_to movies_path(ratings: Hash[session[:ratings].map {|r| [r,1]}], sort: session[:sort]) if session[:ratings] && session[:sort] && ( !params[:ratings] || !params[:sort])
+
+    @ratings = session[:ratings] || @all_ratings
+    @sort = session[:sort] || 'id'
 
     @movies = Movie.where(rating: @ratings).order(@sort)
   end
